@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 // MongoDB connection (replace with your actual connection string)
-mongoose.connect('mongodb+srv://harisai9581912835:xp26QT5qNLW2zueQ@cluster0.qdt5joe.mongodb.net/', {
+mongoose.connect('mongodb+srv://harisai9581912835:xp26QT5qNLW2zueQ@cluster0.qdt5joe.mongodb.net/user_data', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

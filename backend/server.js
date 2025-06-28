@@ -42,6 +42,7 @@ const User = mongoose.model('User', userSchema);
 // Endpoint to handle storing the user data
 app.post('/storeData', (req, res) => {
     const userData = req.body;
+    console.log('Received data:', userData);  // Log incoming data
 
     const phoneRegex = /^\d{10}$/;
     if (!phoneRegex.test(userData.mobileNumber)) {
@@ -51,9 +52,16 @@ app.post('/storeData', (req, res) => {
     const newUser = new User(userData);
 
     newUser.save()
-        .then(() => res.status(200).json({ message: 'Data stored successfully' }))
-        .catch((err) => res.status(500).json({ error: 'Failed to store data', err }));
+        .then(() => {
+            console.log('User saved:', userData);  // Log the saved data
+            res.status(200).json({ message: 'Data stored successfully' });
+        })
+        .catch((err) => {
+            console.error('Error saving data:', err);  // Log error if any
+            res.status(500).json({ error: 'Failed to store data', err });
+        });
 });
+
 
 // Endpoint to view all stored data (admin page)
 app.get('/viewData', (req, res) => {

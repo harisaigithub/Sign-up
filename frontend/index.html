@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,9 +25,7 @@
                     <input type="text" id="lastName" placeholder="Last Name" required>
                 </div>
                 <div class="input-group">
-                    <input type="tel" id="mobileNumber" placeholder="Mobile Number" required title="Please enter a valid 10-digit mobile number">
-                     <!-- Error message will be shown here -->
-                    <small id="mobileError" style="color: red; display: none;">Please enter a valid 10-digit mobile number.</small>
+                    <input type="tel" id="mobileNumber" placeholder="Mobile Number" required pattern="^\d{10}$" title="Please enter a valid 10-digit mobile number">
                 </div>
                 <div class="input-group">
                     <input type="email" id="email" placeholder="Mail" required>
@@ -53,7 +52,7 @@
             const phoneRegex = /^\d{10}$/;
             if (!phoneRegex.test(mobileNumber)) {
                 alert('Please enter a valid 10-digit mobile number.');
-                return; // Stop form submission if validation fails
+                return; // Stop form submission
             }
 
             // If validation is successful, proceed with sending data
@@ -63,7 +62,7 @@
             const password = document.getElementById('password').value;
 
             // Send data to the server using fetch
-            fetch(https://signup-eroo.onrender.com/storeData, {
+            fetch(`https://signup-eroo.onrender.com/storeData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

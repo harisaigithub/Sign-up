@@ -38,6 +38,9 @@
     </div>
 
     <script>
+        // Set the correct API URL based on the environment
+        const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://sign-up-ztbv.onrender.com'; // Update with your actual hosted URL for production
+
         document.getElementById('signupForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form submission to a server
 
@@ -58,7 +61,7 @@
             const password = document.getElementById('password').value;
 
             // Send data to the server using fetch
-            fetch('https://sign-up-ztbv.onrender.com/storeData', {
+            fetch(`${API_URL}/storeData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

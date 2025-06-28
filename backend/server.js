@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 // MongoDB connection (replace with your actual connection string)
-mongoose.connect('mongodb+srv://harisai9581912835:0z5zpRWyxUI3aDBq@cluster0.qdt5joe.mongodb.net/user_data?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://harisai9581912835:xp26QT5qNLW2zueQ@cluster0.qdt5joe.mongodb.net/', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -36,7 +36,6 @@ const userSchema = new mongoose.Schema({
     mobileNumber: String,
     email: String,
     password: String,
-    age: Number,
 });
 const User = mongoose.model('User', userSchema);
 

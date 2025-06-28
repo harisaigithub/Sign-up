@@ -24,7 +24,7 @@
                     <input type="text" id="lastName" placeholder="Last Name" required>
                 </div>
                 <div class="input-group">
-                    <input type="tel" id="mobileNumber" placeholder="Mobile Number" required pattern="^\d{10}$" title="Please enter a valid 10-digit mobile number">
+                    <input type="tel" id="mobileNumber" placeholder="Mobile Number" required title="Please enter a valid 10-digit mobile number">
                 </div>
                 <div class="input-group">
                     <input type="email" id="email" placeholder="Mail" required>
@@ -51,7 +51,7 @@
             const phoneRegex = /^\d{10}$/;
             if (!phoneRegex.test(mobileNumber)) {
                 alert('Please enter a valid 10-digit mobile number.');
-                return; // Stop form submission
+                return; // Stop form submission if validation fails
             }
 
             // If validation is successful, proceed with sending data

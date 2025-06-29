@@ -140,3 +140,10 @@ input::placeholder {
 html, body {
     overflow-x: hidden;
 }
+
+
+#errorMessage {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
